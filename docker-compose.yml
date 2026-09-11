@@ -1,0 +1,53 @@
+# =============================================================================
+# 省队青训营训练档案平台 —— 一键启动
+#   docker compose up -d --build
+#   前端: http://localhost:8080
+#   API 文档(Swagger): http://localhost:8080/docs
+# =============================================================================
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: training-db
+    environment:
+      POSTGRES_USER: training
+      POSTGRES_PASSWORD: training
+      POSTGRES_DB: training_archive
+      TZ: Asia/Shanghai
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U training -d training_archive"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    container_name: training-backend
+    environment:
+      DATABASE_URL: postgresql+asyncpg://training:training@db:5432/training_archive
+      JWT_SECRET: change-me-in-production
+      JWT_ALGORITHM: HS256
+      JWT_EXPIRE_MINUTES: "720"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: training-frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
