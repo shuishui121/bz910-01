@@ -9,7 +9,7 @@ from datetime import date
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .models import fitness_metrics, fitness_norms, players
+from ..models import fitness_metrics, fitness_norms, players
 
 CLAMP_LOW, CLAMP_HIGH = 20.0, 80.0
 
