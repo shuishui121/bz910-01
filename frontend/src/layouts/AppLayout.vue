@@ -26,7 +26,7 @@ import { useAuthStore } from '../stores/auth.js'
 
 const auth = useAuthStore()
 const router = useRouter()
-const roleText = computed({ coach: '教练', parent: '家长', admin: '管理员' }[auth.user?.role] || '')
+const roleText = computed(() => ({ coach: '教练', parent: '家长', admin: '管理员' }[auth.user?.role] || ''))
 
 function logout() {
   auth.logout()

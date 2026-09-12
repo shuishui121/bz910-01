@@ -8,17 +8,17 @@
         <strong>第 {{ w.week_no }} 周</strong>
         <span class="small muted">{{ w.training_date }}</span>
       </div>
-      <div class="small muted" v-if="w.technical_items.length">技术项：
+      <div class="small muted" v-if="w.technical_items?.length">技术项：
         <span v-for="(t, i) in w.technical_items" :key="i">
           {{ t.name }}{{ t.sets ? ` ${t.sets}组` : '' }}{{ t.reps ? `×${t.reps}` : '' }}；
         </span>
       </div>
-      <div class="small muted" v-if="w.physical_items.length">体能项：
+      <div class="small muted" v-if="w.physical_items?.length">体能项：
         <span v-for="(t, i) in w.physical_items" :key="i">
           {{ t.name }}{{ t.load ? ` ${t.load}` : '' }}{{ t.sets ? ` ${t.sets}组` : '' }}；
         </span>
       </div>
-      <div class="small" v-if="w.matches.length">对抗赛：
+      <div class="small" v-if="w.matches?.length">对抗赛：
         <span v-for="(m, i) in w.matches" :key="i"
               :style="{color: {胜:'var(--good)', 负:'var(--serious)'}[m.result]}">
           {{ m.name }} {{ m.score }} {{ m.result }}；

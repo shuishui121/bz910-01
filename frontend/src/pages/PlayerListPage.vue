@@ -38,7 +38,7 @@ const router = useRouter()
 const players = ref([])
 const loading = ref(true)
 
-const title = computed(
+const title = computed(() =>
   auth.isParent ? '我的孩子' : auth.isAdmin ? '全部学员' : '我负责的学员',
 )
 
